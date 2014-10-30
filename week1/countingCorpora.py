@@ -2,14 +2,13 @@
 
 import sys
 import os.path
-import re
 from collections import defaultdict
 from collections import Counter
 
 def findNLengthNTimes(list):
 	for i in reversed(range(len(longestWord))):
-		for word in listOrderedByLength:
-			if len(word[0]) >= i and word[1] >= i:
+		for word, times in listOrderedByLength:
+			if len(word) >= i and times >= i:
 				return i
 	return 0
 
@@ -29,16 +28,16 @@ with open(filename) as myFile:
 
 	print("Filename:", filename)
 
-	d = defaultdict(int);
+	c = Counter()
 	for line in myFile:
 		for word in line.split():
-			d[word] += 1
-	c = Counter(d)
+			c[word] += 1
+
 	# print (list(d.items()))
 	print ("Total number of words:", sum(c.values()))
 	print ("Total number of distinct words:", len(c))
 	print ("Average of times words were used:", int(sum(c.values())/len(c)))
-	print ("42nd most used words and how many times:", c.most_common(42)[41])
+	print ("42nd most used words and how many times:", c.most_common(42)[-1])
 
 	listOrderedByLength = sorted(c.items(), key=lambda w: len(w[0]), reverse=True)
 	longestWord = listOrderedByLength[0][0]
